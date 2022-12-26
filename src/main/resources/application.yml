@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: kafka-transaction-test
+  main:
+    banner-mode: "off"
+    web-application-type: none
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    default-property-inclusion: non_null
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9093}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      transaction-id-prefix: tx-
+    consumer:
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        isolation.level: read_committed
+      group-id: tr-test1
+
+kafka:
+  topic: kafka.test.topic
+  listeners-count: ${LISTENERS_COUNT:3} # To enable multithread listening you need several partitions (set manually in kafka after container starts)
+  producer-enabled: ${PRODUCER_ENABLED:false}
+  consumer-enabled: ${CONSUMER_ENABLED:false}
