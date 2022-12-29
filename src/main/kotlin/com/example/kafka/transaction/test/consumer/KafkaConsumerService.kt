@@ -1,6 +1,5 @@
 package com.example.kafka.transaction.test.consumer
 
-import com.example.kafka.transaction.test.Message
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
@@ -18,7 +17,7 @@ class KafkaConsumerService {
     private val log = LoggerFactory.getLogger(javaClass)
 
     @KafkaListener(topics = ["\${kafka.topic}"], autoStartup = "true")
-    fun listen(record: ConsumerRecord<String, Message>) {
+    fun listen(record: ConsumerRecord<String, String>) {
         log.info(
             "### Thread_${Thread.currentThread().id} got record from kafka: " +
                 "key = ${record.key()}, " +

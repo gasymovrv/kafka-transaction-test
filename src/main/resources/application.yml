@@ -17,14 +17,15 @@ spring:
     consumer:
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties:
-        spring.json.trusted.packages: "*"
-        isolation.level: read_committed
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      #value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      #properties:
+      #  spring.json.trusted.packages: "*"
+      #  isolation.level: read_committed
       group-id: tr-test1
 
 kafka:
-  topic: kafka.test.topic
-  listeners-count: ${LISTENERS_COUNT:3} # To enable multithread listening you need several partitions (set manually in kafka after container starts)
+  topic: kafka.topic
+  listeners-count: ${LISTENERS_COUNT:3} # To enable multithreaded listening you need several partitions (set manually in kafka after container starts)
   producer-enabled: ${PRODUCER_ENABLED:false}
   consumer-enabled: ${CONSUMER_ENABLED:false}

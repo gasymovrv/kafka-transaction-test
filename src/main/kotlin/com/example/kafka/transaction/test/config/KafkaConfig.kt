@@ -37,17 +37,34 @@ class KafkaConfig(
     }
 
     @Bean
-    fun consumerFactory(kafkaProperties: KafkaProperties): ConsumerFactory<String, Message> {
+    fun consumerFactory(kafkaProperties: KafkaProperties): ConsumerFactory<String, String> {
         val props = kafkaProperties.buildConsumerProperties()
-        return DefaultKafkaConsumerFactory<String, Message>(props)
+        return DefaultKafkaConsumerFactory(props)
     }
 
     @Bean
-    fun kafkaListenerContainerFactory(consumerFactory: ConsumerFactory<String, Message>): KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, Message>> {
-        val factory = ConcurrentKafkaListenerContainerFactory<String, Message>()
+    fun kafkaListenerContainerFactory(consumerFactory: ConsumerFactory<String, String>): KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> {
+        val factory = ConcurrentKafkaListenerContainerFactory<String, String>()
         factory.setConcurrency(listenersCount)
         factory.consumerFactory = consumerFactory
         factory.setCommonErrorHandler(DefaultErrorHandler())
         return factory
     }
+
+    // Typed consumer:
+
+    // @Bean
+    // fun consumerFactory(kafkaProperties: KafkaProperties): ConsumerFactory<String, Message> {
+    //     val props = kafkaProperties.buildConsumerProperties()
+    //     return DefaultKafkaConsumerFactory<String, Message>(props)
+    // }
+    //
+    // @Bean
+    // fun kafkaListenerContainerFactory(consumerFactory: ConsumerFactory<String, Message>): KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, Message>> {
+    //     val factory = ConcurrentKafkaListenerContainerFactory<String, Message>()
+    //     factory.setConcurrency(listenersCount)
+    //     factory.consumerFactory = consumerFactory
+    //     factory.setCommonErrorHandler(DefaultErrorHandler())
+    //     return factory
+    // }
 }

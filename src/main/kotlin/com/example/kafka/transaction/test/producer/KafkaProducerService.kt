@@ -30,7 +30,7 @@ class KafkaProducerService(
             kafkaTemplate.send(topic, message.id.toString(), message)
                 .addCallback(this::successCallback, this::failureCallback)
 
-            if (error && i > 3) throw RuntimeException("Test Error to interrupt Transactional")
+            if (error && i > 3) throw RuntimeException("Test error to interrupt transaction")
         }
         log.info("=========================== tx $txName finished ====================")
     }
